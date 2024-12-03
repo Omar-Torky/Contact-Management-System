@@ -86,90 +86,6 @@ let loadContactsFromFile (filePath: string) =
         printfn "File not found: %s" filePath
 
 
-// let rec menu () =
-//     printfn "\nContact Management System"
-//     printfn "1. Add Contact"
-//     printfn "2. Search Contact"
-//     printfn "3. Edit Contact"
-//     printfn "4. Delete Contact"
-//     printfn "5. Save Contacts to File"
-//     printfn "6. Load Contacts from File"
-//     printfn "7. Exit"
-//     printf "Choose an option: "
-//     let choice = System.Console.ReadLine()
-
-//     match choice with
-//     | "1" ->
-//         printf "Enter Name: "
-//         let name = System.Console.ReadLine()
-//         printf "Enter Phone Number: "
-//         let phone = System.Console.ReadLine()
-//         printf "Enter Email: "
-//         let email = System.Console.ReadLine()
-//         addContact name phone email
-//         menu ()
-//     | "2" ->
-//         printf "Enter Name or Phone Number to Search: "
-//         let key = System.Console.ReadLine()
-//         searchContact key
-//         menu ()
-//     | "3" ->
-//         printf "Enter Phone Number of Contact to Edit"
-//         let phoneNumber = System.Console.ReadLine()
-//         printf "Enter New Name: "
-//         let newName = System.Console.ReadLine()
-//         printf "Enter New Phone Number: "
-//         let newPhone = System.Console.ReadLine()
-//         printf "Enter New Email: "
-//         let newEmail = System.Console.ReadLine()
-//         editContact phoneNumber newName newPhone newEmail
-//         menu ()
-//     | "4" ->
-//         printf "Enter Phone Number of Contact to Delete: "
-//         let phoneNumber = System.Console.ReadLine()
-//         deleteContact phoneNumber
-//         menu ()
-//     | "5" ->
-//         printf "Enter File Path to Save Contacts: "
-//         let filePath = System.Console.ReadLine()
-//         saveContactsToFile filePath
-//         menu ()
-//     | "6" ->
-//         printf "Enter File Path to Load Contacts: "
-//         let filePath = System.Console.ReadLine()
-//         loadContactsFromFile filePath
-//         menu ()
-//     | "7" ->
-//         printfn "Exiting the program. Goodbye!"
-//     | _ ->
-//         printfn "Invalid option. Please try again."
-//         menu ()
-
-// menu ()
-
-
-// open System
-// open System.Windows.Forms
-
-// // Function to create and configure the main form
-// let createMainForm() =
-//     let form = new Form(Text = "F# Window Form", Width = 400, Height = 300)
-//     let label = new Label(Text = "Hello Omar", AutoSize = true, Top = 100, Left = 150)
-//     form.Controls.Add(label)
-//     form
-
-// [<EntryPoint>]
-// let main argv =
-//     // Create the main form
-//     let mainForm = createMainForm()
-
-//     // Run the application with the main form
-//     Application.Run(mainForm)
-
-//     0 // Exit code
-
-
-
 open System
 open System.Windows.Forms
 
@@ -341,4 +257,68 @@ let main argv =
 
 
 
+
+
+
+
+// let rec menu () =
+//     printfn "\nContact Management System"
+//     printfn "1. Add Contact"
+//     printfn "2. Search Contact"
+//     printfn "3. Edit Contact"
+//     printfn "4. Delete Contact"
+//     printfn "5. Save Contacts to File"
+//     printfn "6. Load Contacts from File"
+//     printfn "7. Exit"
+//     printf "Choose an option: "
+//     let choice = System.Console.ReadLine()
+
+//     match choice with
+//     | "1" ->
+//         printf "Enter Name: "
+//         let name = System.Console.ReadLine()
+//         printf "Enter Phone Number: "
+//         let phone = System.Console.ReadLine()
+//         printf "Enter Email: "
+//         let email = System.Console.ReadLine()
+//         addContact name phone email
+//         menu ()
+//     | "2" ->
+//         printf "Enter Name or Phone Number to Search: "
+//         let key = System.Console.ReadLine()
+//         searchContact key
+//         menu ()
+//     | "3" ->
+//         printf "Enter Phone Number of Contact to Edit"
+//         let phoneNumber = System.Console.ReadLine()
+//         printf "Enter New Name: "
+//         let newName = System.Console.ReadLine()
+//         printf "Enter New Phone Number: "
+//         let newPhone = System.Console.ReadLine()
+//         printf "Enter New Email: "
+//         let newEmail = System.Console.ReadLine()
+//         editContact phoneNumber newName newPhone newEmail
+//         menu ()
+//     | "4" ->
+//         printf "Enter Phone Number of Contact to Delete: "
+//         let phoneNumber = System.Console.ReadLine()
+//         deleteContact phoneNumber
+//         menu ()
+//     | "5" ->
+//         printf "Enter File Path to Save Contacts: "
+//         let filePath = System.Console.ReadLine()
+//         saveContactsToFile filePath
+//         menu ()
+//     | "6" ->
+//         printf "Enter File Path to Load Contacts: "
+//         let filePath = System.Console.ReadLine()
+//         loadContactsFromFile filePath
+//         menu ()
+//     | "7" ->
+//         printfn "Exiting the program. Goodbye!"
+//     | _ ->
+//         printfn "Invalid option. Please try again."
+//         menu ()
+
+// menu ()
 
