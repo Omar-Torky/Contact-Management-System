@@ -16,46 +16,16 @@ let isValidPhoneNumber (phoneNumber: string) =
 let isValidEmail (email: string) =
     Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
-let addContact name phoneNumber email =
-    if not (isValidPhoneNumber phoneNumber) then
-        printfn "Invalid phone number format."
-    elif not (isValidEmail email) then
-        printfn "Invalid email format."
-    elif contacts.ContainsKey(phoneNumber) then
-        printfn "A contact with this phone number already exists."
-    else
-        let newContact = { Name = name; PhoneNumber = phoneNumber; Email = email }
-        contacts <- contacts.Add(phoneNumber, newContact)
-        printfn "Contact added: %A" newContact
+// Toqa - add function
 
-let searchContact key =
-    let results = 
-        contacts 
-        |> Map.filter (fun _ contact -> contact.Name.Contains(key : string) || contact.PhoneNumber.Contains(key : string))
-    if results.IsEmpty then
-        printfn "No contacts found."
-    else
-        results |> Map.iter (fun _ contact -> printfn "%A" contact)
+// Basma - Search function
 
-let editContact phoneNumber newName newPhone newEmail =
-    match contacts.TryFind(phoneNumber) with
-    | Some _ ->
-        if not (isValidPhoneNumber newPhone) then
-            printfn "Invalid phone number format."
-        elif not (isValidEmail newEmail) then
-            printfn "Invalid email format."
-        else
-            let updatedContact = { Name = newName; PhoneNumber = newPhone; Email = newEmail }
-            contacts <- contacts.Remove(phoneNumber).Add(newPhone, updatedContact)
-            printfn "Contact updated: %A" updatedContact
-    | None -> printfn "Contact not found."
+// Rahma - Edit function
 
-let deleteContact phoneNumber =
-    if contacts.ContainsKey(phoneNumber) then
-        contacts <- contacts.Remove(phoneNumber)
-        printfn "Contact deleted."
-    else
-        printfn "Contact not found."
+
+
+
+// Bassant - Delete function
 
 let saveContactsToFile (filePath: string) =
     use writer = new StreamWriter(filePath, append = true)
@@ -64,26 +34,7 @@ let saveContactsToFile (filePath: string) =
     )
     printfn "Contacts saved to %s" filePath
 
-let loadContactsFromFile (filePath: string) =
-    if File.Exists(filePath) then
-        try
-            use reader = new StreamReader(filePath)
-            let lines = reader.ReadToEnd().Split([| '\n' |], StringSplitOptions.RemoveEmptyEntries)
-            for line in lines do
-                let parts = line.Split(',')
-                if parts.Length = 3 then
-                    let name = parts.[0].Trim()
-                    let phoneNumber = parts.[1].Trim()
-                    let email = parts.[2].Trim()
-                    addContact name phoneNumber email
-                else
-                    printfn "Skipping invalid line: %s" line
-            printfn "Contacts loaded from %s" filePath
-        with
-        | :? System.Exception as ex ->
-            printfn "Error loading contacts: %s" ex.Message
-    else
-        printfn "File not found: %s" filePath
+// Youssef - load contacts function
 
 
 open System
@@ -104,117 +55,28 @@ let createForm () =
 
 
 
-    let btnAdd = new Button(Text = "Add Contact", Top = 140, Left = 150, Width = 500, Height = 40)
-    btnAdd.Click.Add(fun _ ->
-        let name = InputBox("Enter Name:", "Add Contact")
-        let phone = InputBox("Enter Phone:", "Add Contact")
-        let email = InputBox("Enter Email:", "Add Contact")
-        
-        if String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(phone) || String.IsNullOrWhiteSpace(email) then
-            MessageBox.Show("All fields are required.", "Error") |> ignore
-        elif not (isValidPhoneNumber phone) then
-            MessageBox.Show("Invalid phone number format.", "Error") |> ignore
-        elif not (isValidEmail email) then
-            MessageBox.Show("Invalid email format.", "Error") |> ignore
-        elif contacts.ContainsKey(phone) then
-            MessageBox.Show("A contact with this phone number already exists.", "Error") |> ignore
-        else
-            addContact name phone email
-            MessageBox.Show("Contact added successfully.", "Success") |> ignore
-    )
+// Toqa - add Button
 
 
 
-    let btnEdit = new Button(Text = "Edit Contact", Top = 220, Left = 150, Width = 500, Height = 40)
-    btnEdit.Click.Add(fun _ ->
-        let phoneToEdit = InputBox("Enter Phone Number of the Contact to Edit:", "Edit Contact")
-
-        if not (String.IsNullOrWhiteSpace phoneToEdit) then
-            match contacts.TryFind(phoneToEdit) with
-            | Some contact ->
-                let newName = InputBox($"Enter New Name (Current: {contact.Name}):", "Edit Contact")
-                let newPhone = InputBox($"Enter New Phone (Current: {contact.PhoneNumber}):", "Edit Contact")
-                let newEmail = InputBox($"Enter New Email (Current: {contact.Email}):", "Edit Contact")
-
- 
-                if String.IsNullOrWhiteSpace(newName) || String.IsNullOrWhiteSpace(newPhone) || String.IsNullOrWhiteSpace(newEmail) then
-                    MessageBox.Show("All fields are required.", "Error") |> ignore
-
-                elif not (isValidPhoneNumber newPhone) then
-                    MessageBox.Show("Invalid phone number format.", "Error") |> ignore
-        
-                elif not (isValidEmail newEmail) then
-                    MessageBox.Show("Invalid email format.", "Error") |> ignore
-                
-                else
-                    editContact phoneToEdit newName newPhone newEmail
-                    MessageBox.Show("Contact Edited Successfully.", "Success") |> ignore
-            | None ->
-                MessageBox.Show("No Contact Found With This Phone Number.", "Error") |> ignore
-        else
-            MessageBox.Show("Phone number cannot be empty.", "Error") |> ignore
-    )
+// Rahma - Edit Button
 
 
 
-    let btnSearch = new Button(Text = "Search Contact", Top = 300, Left = 150, Width = 500, Height = 40)
-    btnSearch.Click.Add(fun _ ->
-        let key = InputBox("Enter Name or Phone Number to Search:", "Search Contact")
-        
-        if not (String.IsNullOrWhiteSpace key) then
-            let results = 
-                contacts
-                |> Map.filter (fun _ contact -> 
-                    contact.Name.Contains(key) || contact.PhoneNumber.Contains(key))
 
-            if results.IsEmpty then
-                MessageBox.Show("No contacts found.", "Search Result") |> ignore
-            else
-                let contactList = 
-                    results
-                    |> Map.fold (fun acc _ contact -> acc + $"{contact.Name} - {contact.PhoneNumber}\n") ""
-
-                MessageBox.Show($"Found contacts:\n{contactList}", "Search Result") |> ignore
-        else
-            MessageBox.Show("Please enter a valid search query.", "Error") |> ignore
-    )
+// Basma - Search Button
 
 
 
-    let btnDelete = new Button(Text = "Delete Contact", Top = 380, Left = 150, Width = 500, Height = 40)
-    btnDelete.Click.Add(fun _ ->
-        let phone = InputBox("Enter The Number You Wanna Delete:", "Delete Contact")
-        
-        if String.IsNullOrWhiteSpace(phone) then
-            MessageBox.Show("Phone number cannot be empty.", "Error") |> ignore
-        elif not (isValidPhoneNumber phone) then
-            MessageBox.Show("Invalid phone number.", "Error") |> ignore
-        else
-            if contacts.ContainsKey(phone) then
-                deleteContact phone
-                MessageBox.Show($"Contact with phone number {phone} deleted successfully.", "Delete Contact") |> ignore
-            else
-                MessageBox.Show($"No contact found with phone number {phone}.", "Error") |> ignore
-    )
+
+// Bassant - Delete Button
 
 
 
 
 
-    let btnLoadContacts = new Button(Text = "View Contacts", Top = 460, Left = 150, Width = 500, Height = 40)
-    btnLoadContacts.Click.Add(fun _ ->
-        try
-            let filePath = File.ReadAllText("File.txt")
+// Youssef - load contacts Button
 
-            // loadContactsFromFile filePath
-
-            MessageBox.Show($"{filePath}") |> ignore
-        with
-        | :? FileNotFoundException ->
-            MessageBox.Show("File not found! Please ensure the file path is correct.", "Error") |> ignore
-        | :? System.Exception as ex ->
-            MessageBox.Show($"An error occurred while loading the contacts: {ex.Message}", "Error") |> ignore
-    )
 
 
 
